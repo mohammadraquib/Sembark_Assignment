@@ -68,7 +68,13 @@ Email: superadmin@domain.com
 Password: pass@2025
 ```
 
-### 7. Start the development server
+### 7. Install Node modules and build assets
+```bash
+npm install
+npm run build
+```
+
+### 8. Start the development server
 ```bash
 php artisan serve
 ```
