@@ -14,7 +14,10 @@ class ShortUrlPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user !== null;
+        if($user->isSuperAdmin()) {
+            return true;
+        }
+        return in_array($user->role, [UserRole::Admin, UserRole::Member]);
     }
 
     /**
@@ -22,7 +25,18 @@ class ShortUrlPolicy
      */
     public function view(User $user, ShortUrl $shortUrl): bool
     {
-        return true;
+        // SuperAdmin can view any short url
+        if($user->isSuperAdmin()) {
+            return true;
+        }
+        // Admin can only see it's own or it's member's short urls
+        if($user->isAdmin()) {
+            return $shortUrl->user_id === $user->id || $shortUrl->user?->owner_id === $user->id;
+        }
+        if($user->isMember()) {
+            return $shortUrl->user_id === $user->id;
+        }
+        return false;
     }
 
     /**

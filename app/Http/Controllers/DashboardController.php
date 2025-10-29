@@ -22,9 +22,12 @@ class DashboardController extends Controller
             $data['short_urls'] = ShortUrl::latest()->whereDate('created_at', '>=', $dateRange['start'])->whereDate('created_at', '<=', $dateRange['end'])->limit(5)->get();
             $data['total_short_urls'] = ShortUrl::count();
         } else if($user->isAdmin()) {
-            $team_members = $user->users()->pluck('id')->push($user->id);
-            $data['short_urls'] = ShortUrl::whereIn('user_id', $team_members)->latest()->whereDate('created_at', '>=', $dateRange['start'])->whereDate('created_at', '<=', $dateRange['end'])->limit(5)->get();
-            $data['total_short_urls'] = ShortUrl::whereIn('user_id', $team_members)->count();
+            $data['short_urls'] = ShortUrl::where('user_id', $user->id)->orWhereHas('user', function ($query) use ($user) {
+                $query->where('owner_id', $user->id);
+            })->latest()->whereDate('created_at', '>=', $dateRange['start'])->whereDate('created_at', '<=', $dateRange['end'])->limit(5)->get();
+            $data['total_short_urls'] = ShortUrl::where('user_id', $user->id)->orWhereHas('user', function ($query) use ($user) {
+                $query->where('owner_id', $user->id);
+            })->count();
             $data['team_members'] = $user->users()->withCount('urls')->withSum('urls', 'hits')->limit(5)->get();
             $data['total_team_members'] = $user->users()->count();
         } else {

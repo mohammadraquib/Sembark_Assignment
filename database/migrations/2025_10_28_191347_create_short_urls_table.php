@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('shortcode')->unique();
             $table->text('url');
-            $table->bigInteger('hits');
+            $table->bigInteger('hits')->default(0);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

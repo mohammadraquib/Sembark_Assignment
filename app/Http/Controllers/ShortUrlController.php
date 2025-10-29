@@ -16,8 +16,9 @@ class ShortUrlController extends Controller
         if($user->isSuperAdmin()) {
             $data['short_urls'] = ShortUrl::with('user')->latest()->paginate(10);
         } else if($user->isAdmin()) {
-            $team_members = $user->users()->pluck('id')->push($user->id);
-            $data['short_urls'] = ShortUrl::whereIn('user_id', $team_members)->with('user')->latest()->paginate(10);
+            $data['short_urls'] = ShortUrl::where('user_id', $user->id)->orWhereHas('user', function ($query) use ($user) {
+                $query->where('owner_id', $user->id);
+            })->with('user')->latest()->paginate(10);
         } else {
             $data['short_urls'] = $user->urls()->with('user')->latest()->paginate(10);
         }
