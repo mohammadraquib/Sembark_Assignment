@@ -93,6 +93,17 @@ To test email functionality:
 
 ---
 
+---
+
+## 🧪 Running Tests
+The application includes tests for key functionalities.
+You can run all tests using Laravel’s built-in test runner:
+```bash
+php artisan test
+```
+
+---
+
 ## 🧑‍💻 Default Roles
 - **SuperAdmin:** Full access to user and invitation management.  
 - **Admin:** Can create short urls and invite users as Admin or Member
@@ -125,7 +136,8 @@ This project is developed as part of an assignment for **Sembark Tech** and is i
 
 ## ⚠️ Note on AI Usage
 No AI tools were used in the development or coding of this project.  
-Only **ChatGPT** was used **exclusively** for generating this `README.md` file.
+Only **ChatGPT*** was used **exclusively** for generating this `README.md` file and the **HTML email view template**.
+All backend logic, routes, migrations, and implementation were completely written and tested manually.
 
 ---
 
