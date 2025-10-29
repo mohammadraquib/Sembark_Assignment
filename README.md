@@ -90,7 +90,7 @@ To test email functionality:
 ## 🧑‍💻 Default Roles
 - **SuperAdmin:** Full access to user and invitation management.  
 - **Admin:** Can create short urls and invite users as Admin or Member
-- **Member:** Can created short urls
+- **Member:** Can create short urls
 
 ---
 
